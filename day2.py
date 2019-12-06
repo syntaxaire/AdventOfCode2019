@@ -9,7 +9,7 @@ HALT = 99
 def run_intcode(memory: List[int]):
     """Run the Intcode VM on the contents of memory."""
     instruction_pointer = 0
-    while (opcode := memory[instruction_pointer]) != HALT:
+    while (opcode := memory[instruction_pointer]) != HALT:  # noqa: missing support in flake8
         operand_a = memory[memory[instruction_pointer + 1]]
         operand_b = memory[memory[instruction_pointer + 2]]
         target = memory[instruction_pointer + 3]
