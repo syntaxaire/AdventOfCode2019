@@ -26,9 +26,9 @@ class IntcodeVM:
         self.inputs = inputs
         self.outputs = outputs
 
-    def decode(self, ip) -> Tuple[int, List[int]]:
-        """Return the opcode at address ip and the list of modes it needs to operate."""
-        instruction = str(self.memory[ip])  # e.g. '1002'
+    def decode(self, addr) -> Tuple[int, List[int]]:
+        """Return the opcode at the given address, and the list of modes it needs to operate."""
+        instruction = str(self.memory[addr])  # e.g. '1002'
         opcode = int(instruction[-2:])
         remainder = list(instruction[:-2])  # may be [] if a bare opcode was given (e.g. '2')
         num_params = OPCODE_LENGTHS[opcode] - 1  # -1 for the opcode itself
