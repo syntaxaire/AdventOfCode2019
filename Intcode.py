@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 # opcodes for the Intcode machine
 ADD = 1
@@ -26,7 +26,7 @@ class IntcodeVM:
         self.inputs = inputs
         self.outputs = outputs
 
-    def decode(self, ip):
+    def decode(self, ip) -> Tuple[int, List[int]]:
         """Return the opcode at address ip and the list of modes it needs to operate."""
         instruction = str(self.memory[ip])  # e.g. '1002'
         opcode = int(instruction[-2:])
@@ -42,7 +42,7 @@ class IntcodeVM:
             num_params -= 1
         return opcode, modes
 
-    def read(self, addr, mode=IMMEDIATE):
+    def read(self, addr, mode=IMMEDIATE) -> int:
         """Read from memory at the given address, using the given mode."""
         if mode == POSITION:  # dereference a pointer
             return self.memory[self.memory[addr]]
