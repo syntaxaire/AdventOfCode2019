@@ -1,62 +1,32 @@
 """Problem statement: https://adventofcode.com/2019/day/5"""
-from typing import List
-
 from Intcode import IntcodeVM
 
 
-def decode_opcode(value: int) -> list:
-    """Return a list with the opcode, and parameter modes that were encoded in value.
-
-    Example: 1002 (01002) will return [2, 0, 1, 0] for the opcode and three parameter modes."""
-    svalue = str(value)
-    if len(svalue) <= 2:
-        return [value]
-    opcode = int(svalue[-2:])
-    svalue = reversed(svalue[:-2])
-    return [int(opcode)] + [int(val) for val in list(svalue)]
+def solve_part1(program):
+    output = []
+    vm = IntcodeVM(program, [1], output)
+    vm.run()
+    return output
 
 
-def run_intcode(memory: List[int], inputs: list, outputs: list):
-    """Run the Intcode VM on the contents of memory, consuming inputs and writing to outputs.
+def solve_part2(program):
+    output = []
+    vm = IntcodeVM(program, [5], output)
+    vm.run()
+    return output
 
-    memory, inputs and outputs will be mutated."""
-    ip = 0  # instruction pointer
-    decode = decode_opcode(memory[ip])
-    opcode = decode.pop(0)  # remainder, if any, is parameter modes
-    while opcode != HALT:
-        if opcode == ADD:
-            mode = decode.pop(0)
-            if mode == POSITION:
-                operand_a = memory[memory[ip + 1]]
-            elif mode == IMMEDIATE:
-                operand_a = memory[ip + 1]
-            mode = decode.pop(0)
-            if mode == POSITION:
-                operand_b = memory[memory[ip + 2]]
-            elif mode == IMMEDIATE:
-                operand_b = memory[ip + 1]
-            target = memory[ip + 3]
-            memory[target] = operand_a + operand_b
-            increment = 4
-        elif opcode == MULTIPLY:
-            operand_a = memory[memory[ip + 1]]
-            operand_b = memory[memory[ip + 2]]
-            target = memory[ip + 3]
-            memory[target] = operand_a * operand_b
-            increment = 4
-        elif opcode == STORE:
-            value = inputs.pop(0)
-            target = memory[ip + 1]
-            memory[target] = value
-            increment = 2
-        elif opcode == RETRIEVE:
-            source = memory[ip + 1]
-            outputs.append(memory[source])
-            increment = 2
-        ip += increment
-        decode = decode_opcode(memory[ip])
-        opcode = decode.pop(0)  # remainder, if any, is parameter modes
+
+def main():
+    with open('day5.input', 'r') as f:
+        orig_program = list(int(val) for val in f.read().split(','))
+    program_copy = list(orig_program)
+    answer1 = solve_part1(program_copy)
+    print(f'The diagnostic tests returned {answer1[:-1]} (zeroes indicate passes).'
+          f' The diagnostic code for input 1 was {answer1[-1]}.')
+    program_copy = list(orig_program)
+    answer2 = solve_part2(program_copy)
+    print(f'The diagnostic code for input 5 was {answer2[-1]}.')
 
 
 if __name__ == '__main__':
-    print(extract_opcode(103002))
+    main()
