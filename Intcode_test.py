@@ -78,6 +78,5 @@ def test_intcode_vm(program, want_memory, inputs, want_outputs):
     outputs = []
     vm = IntcodeVM(list(program), inputs, outputs)
     vm.run()
-    print(vm.memory)
     assert vm.memory == want_memory
     assert outputs == want_outputs
