@@ -1,4 +1,4 @@
-"""Problem statement: https://adventofcode.com/2019/day/3"""
+"""Problem statement: https://adventofcode.com/2019/day/6"""
 
 
 def build_orbit_mapping(lines):
